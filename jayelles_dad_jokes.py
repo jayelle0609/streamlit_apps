@@ -89,6 +89,20 @@ def show_jayelle_intro():
     | 2026  | Graduate Certificate in Analytics and Visualisation | Singapore University of Social Science
 
     ___
+                
+     ### 🧠 Skills Overview
+
+    | Hard Skills | Technical Skills                          |
+|-------------|-------------------------------------------|
+| Python      | Data Cleaning                             |
+| Tableau     | Data Analysis & EDA                       |
+| SQL         | Data Validation                           |
+| Excel       | Data Visualisations                       |
+| R           | Time Series Analysis                      |
+| Orange      | Statistical Learning & Forecasting        |
+| Stata       |                                           |
+
+    ___
     Since then I have been working as a tutor, but I am currently looking to challenge myself and expand my horizon back into the world of statistics and economics.
     ___
     This web-app was created to practice how I can deploy future apps for repetitive analysis tasks, web scraping tasks, and even APIs or time series visualisations.
@@ -167,3 +181,11 @@ if st.button("Let's go!"):
 
     elif choice == "Meet Jayelle!":
         show_jayelle_intro()
+
+### /Users/jialing/anaconda_projects/jayelle_dad_jokes/jayelles_dad_jokes.py
+### github pushing :
+# cd /Users/jialing/anaconda_projects/jayelle_dad_jokes
+# git status
+# git add jayelles_dad_jokes.py
+# git commit -m "Update skills overview table in show_jayelle_intro function"
+# git push origin main
