@@ -1,11 +1,12 @@
 import streamlit as st
 import requests
-import random
+from pathlib import Path
 
 st.set_page_config(
-    page_title = "Dad Joke Generator", 
-    page_icon = "😂",
-    layout = "centered")
+    page_title="Dad Joke Generator",
+    page_icon="😂",
+    layout="centered"
+)
 
 st.title("Jayelle's Laughter Options 🎉")
 st.write("Choose your daily dose of joy:")
@@ -14,102 +15,155 @@ st.write("Choose your daily dose of joy:")
 options = ["Dad Jokes", "Funny Meme", "Bible Verse", "Christian Meme", "Meet Jayelle!"]
 choice = st.selectbox("Pick a content type", options)
 
+# --- Track meme indices for ordered display (using session state)
+if "funny_meme_index" not in st.session_state:
+    st.session_state.funny_meme_index = 1
+if "christian_meme_index" not in st.session_state:
+    st.session_state.christian_meme_index = 1
+
 # --- Dad joke function
 def get_dad_joke():
     url = "https://icanhazdadjoke.com/"
-    headers = {"Accept" : "application/json"}
+    headers = {"Accept": "application/json"}
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         return response.json()['joke']
     else:
         return "Couldn't fetch a dad joke. Try again later."
-    
-# --- Meme Function (from meme-api.com)
-def get_funny_meme():
-    url = "https://meme-api.com/gimme"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        return data['title'], data['url']
-    else:
-        return "Funny Meme", None
 
-# --- Bible Verse Function (from dailyverses.net unofficial API)
+# --- Bible Verse Function (NLT version)
 def get_bible_verse():
-    url = "https://beta.ourmanna.com/api/v1/get/?format=json"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        verse = data['verse']['details']['text']
-        reference = data['verse']['details']['reference']
-        return f"📖 {verse} — {reference}"
-    else:
-        return "Couldn't fetch a Bible verse. Try again later."
+    url = "https://beta.ourmanna.com/api/v1/get/"
+    params = {
+        "format": "json",
+        "order": "random",
+        "version": "nlt"  # New Living Translation
+    }
+    try:
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            data = response.json()
+            verse = data['verse']['details']['text']
+            reference = data['verse']['details']['reference']
+            return f"🩷 {verse} — {reference} (NLT)"
+        else:
+            return "Couldn't fetch a Bible verse. Try again later."
+    except Exception as e:
+        return f"Error fetching Bible verse: {e}"
 
-# --- Christian Meme Function (from GitHub backend)
-def get_christian_meme():
-    memes = [
-        {
-            "title": "Jesus Take the Wheel",
-            "url": "https://i.imgflip.com/4t0m5d.jpg"
-        },
-        {
-            "title": "Modern Problems Require Ancient Solutions",
-            "url": "https://i.imgur.com/K1ZUJ6L.jpeg"
-        },
-        {
-            "title": "That’s not very Christian of you",
-            "url": "https://i.imgur.com/KzGMlCy.jpg"
-        },
-        {
-            "title": "Bible Study Be Like",
-            "url": "https://i.redd.it/zf6cd9p7sjv41.jpg"
-        },
-        {
-            "title": "When you pray but still mess up",
-            "url": "https://i.imgur.com/tGvRdc1.jpeg"
-        },
-    ]
-    meme = random.choice(memes)
-    return meme['title'], meme['url']
-
-# --- Introduction / Jayelle option
+# --- Show Jayelle intro
 def show_jayelle_intro():
-    st.image("jayelle.png", caption="👋 Hi, I'm Jayelle!", use_column_width=True)
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.image("jayelle.png",
+                 caption="**👋 Hi, I'm Jayelle! It's very nice to meet ya~**",
+                 width=300)
+
     st.markdown("""
-    **A quick introduction to me!**
-                   My real name is Jia Ling. I am an aspiring statistician, exploring how automation can be used to simplify repetitive analysis tasks.
-                I graduated with a Bachelors in Social Science in Economics (Honours) from National University of Singapore in 2023.
-                Since then, I have been working as a teacher/tutor, but I am currently looking to challenge myself and expand my horizon back into the world of statistics, related to my undergrad studies.
-                This web-app was created as a sample, to test how I can deploy future repetitive analysis and web scraping tasks, such as APIs and time series analysis.
-                Meanwhile, have fun on my page!
-                
-   [Click here to view my resume and projects](https://github.com/jayelle0609)
+    # **A quick introduction to Jayelle!**
+
+    My full name is Teo Jia Ling. 
+
+    I am an aspiring statistician, exploring how automation can be used to simplify repetitive analysis tasks.
+
+    To me, there's something thrilling about unravelling hidden insights from complicated data!
+
+    While data analysis can feel overwhelming to many, harnessing the power of Python and automation inspires me deeply -- automation is extremely powerful! 
+    \n It simplifies difficult analysis tasks and has made me **awe in wonder multiple times.**""")
+
+    # Centered mindblown.gif
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.image("mindblown.gif", use_container_width=True)
+
+    st.markdown("""
+                \n The journey of discovering meaningful insights from seemingly difficult data is deeply interesting to me, and it’s what sparked me to embark on this exciting path of analytics.
+    ___
+
+    ### Background and qualifications
+    | Year | Qualifications                                   | University                                |
+    |-------|------------------------------------------------|-----------------------------------------|
+    | 2023  | Bachelors in Social Science in Economics (Honours) | National University of Singapore  |
+    | 2024  | Teacher                                       | Self-employed                    |
+    | 2025  | Professional Certificate in Data Analytics and Data Visualisation | National University of Singapore  |
+    | 2026  | Graduate Certificate in Analytics and Visualisation | Singapore University of Social Science
+
+    ___
+    Since then I have been working as a tutor, but I am currently looking to challenge myself and expand my horizon back into the world of statistics and economics.
+    ___
+    This web-app was created to practice how I can deploy future apps for repetitive analysis tasks, web scraping tasks, and even APIs or time series visualisations.
+    ___
+    Meanwhile, have fun on my page!
+
+   [Click here to view my resume and projects on Git Hub!](https://github.com/jayelle0609)
     """)
-                
+
+# --- Show funny meme (from local files, ordered 1-13)
+def show_funny_meme():
+    idx = st.session_state.funny_meme_index
+    meme_path = f"normalmeme{idx}.png"
+    if Path(meme_path).exists():
+        st.image(meme_path, width=400)
+    else:
+        st.error(f"Funny meme {idx} not found.")
+    # increment index
+    st.session_state.funny_meme_index += 1
+    if st.session_state.funny_meme_index > 13:
+        st.session_state.funny_meme_index = 1
+
+# --- Show christian meme (from local files 1-11, then videos 12-13)
+def show_christian_meme():
+    idx = st.session_state.christian_meme_index
+    if idx <= 11:
+        meme_path = f"christianmeme{idx}.png"
+        if Path(meme_path).exists():
+            st.image(meme_path, width=400)
+        else:
+            st.error(f"Christian meme image {idx} not found.")
+    else:
+        video_path = f"christianmeme{idx}.mp4"
+        if Path(video_path).exists():
+            video_file = open(video_path, "rb")
+            video_bytes = video_file.read()
+            col1, col2, col3 = st.columns([1, 2, 1])  # center video
+            with col2:
+                st.video(video_bytes, format="video/mp4", start_time=0)
+        else:
+            st.error(f"Christian meme video {idx} not found.")
+    # increment index
+    st.session_state.christian_meme_index += 1
+    if st.session_state.christian_meme_index > 13:
+        st.session_state.christian_meme_index = 1
+
+# --- Show bible verse with background image
+def show_bible_verse():
+    if Path("bible_background.png").exists():
+        st.image("bible_background.png", use_container_width=True)
+    else:
+        st.warning("Background image bible_background.png not found.")
+    verse_text = get_bible_verse()
+    st.info(verse_text)
+
+# --- Show dad joke with gif before it
+def show_dad_joke():
+    if Path("dadjokes.gif").exists():
+        st.image("dadjokes.gif", width=300)
+    joke = get_dad_joke()
+    st.success(joke)
+
 # --- Logic to show content
 if st.button("Let's go!"):
-    if choice == "Dad Joke":
-        st.success(get_dad_joke())
+    if choice == "Dad Jokes":
+        show_dad_joke()
 
     elif choice == "Funny Meme":
-        title, img_url = get_funny_meme()
-        st.subheader(title)
-        if img_url:
-            st.image(img_url, use_column_width=True)
-        else:
-            st.error("Couldn't load meme.")
+        show_funny_meme()
 
     elif choice == "Christian Meme":
-        title, img_url = get_christian_meme()
-        st.subheader(title)
-        if img_url:
-            st.image(img_url, use_column_width=True)
-        else:
-            st.warning("Couldn't load a Christian meme at the moment.")
+        show_christian_meme()
 
     elif choice == "Bible Verse":
-        st.info(get_bible_verse())
+        show_bible_verse()
 
     elif choice == "Meet Jayelle!":
         show_jayelle_intro()
