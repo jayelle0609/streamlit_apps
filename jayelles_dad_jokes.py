@@ -74,7 +74,7 @@ def show_jayelle_intro():
     # Centered mindblown.gif
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        st.image("mindblown.gif", use_container_width=True)
+        st.image("images/mindblown.gif", use_container_width=True)
 
     st.markdown("""
                 \n The journey of discovering meaningful insights from seemingly difficult data is deeply interesting to me, and it’s what sparked me to embark on this exciting path of analytics.
@@ -101,7 +101,7 @@ def show_jayelle_intro():
 # --- Show funny meme (from local files, ordered 1-13)
 def show_funny_meme():
     idx = st.session_state.funny_meme_index
-    meme_path = f"normalmeme{idx}.png"
+    meme_path = f"images/normalmeme{idx}.png"
     if Path(meme_path).exists():
         st.image(meme_path, width=400)
     else:
@@ -115,13 +115,13 @@ def show_funny_meme():
 def show_christian_meme():
     idx = st.session_state.christian_meme_index
     if idx <= 11:
-        meme_path = f"christianmeme{idx}.png"
+        meme_path = f"images/christianmeme{idx}.png"
         if Path(meme_path).exists():
             st.image(meme_path, width=400)
         else:
             st.error(f"Christian meme image {idx} not found.")
     else:
-        video_path = f"christianmeme{idx}.mp4"
+        video_path = f"images/christianmeme{idx}.mp4"
         if Path(video_path).exists():
             video_file = open(video_path, "rb")
             video_bytes = video_file.read()
@@ -137,8 +137,8 @@ def show_christian_meme():
 
 # --- Show bible verse with background image
 def show_bible_verse():
-    if Path("bible_background.png").exists():
-        st.image("bible_background.png", use_container_width=True)
+    if Path("images/bible_background.png").exists():
+        st.image("images/bible_background.png", use_container_width=True)
     else:
         st.warning("Background image bible_background.png not found.")
     verse_text = get_bible_verse()
@@ -146,8 +146,8 @@ def show_bible_verse():
 
 # --- Show dad joke with gif before it
 def show_dad_joke():
-    if Path("dadjokes.gif").exists():
-        st.image("dadjokes.gif", width=300)
+    if Path("images/dadjokes.gif").exists():
+        st.image("images/dadjokes.gif", width=300)
     joke = get_dad_joke()
     st.success(joke)
 
