@@ -90,17 +90,16 @@ def show_jayelle_intro():
 
     ___
                 
-     ### 🧠 Skills Overview
-
-    | Hard Skills | Technical Skills                          |
-|-------------|-------------------------------------------|
-| Python      | Data Cleaning                             |
-| Tableau     | Data Analysis & EDA                       |
-| SQL         | Data Validation                           |
-| Excel       | Data Visualisations                       |
-| R           | Time Series Analysis                      |
-| Orange      | Statistical Learning & Forecasting        |
-| Stata       |                                           |
+    ### Skills Overview
+    | Hard Skills            | Technical Skills                          |
+    |----------------------- |-------------------------------------------|
+    | Python                 | Data Cleaning                             |
+    | Tableau                | Data Analysis & EDA                       |
+    | SQL                    | Data Validation                           |
+    | Excel                  | Data Visualisations                       |
+    | R                      | Time Series Analysis                      |
+    | Orange                 | Statistical Forecasting                   |
+    | Stata                  |                                           |
 
     ___
     Since then I have been working as a tutor, but I am currently looking to challenge myself and expand my horizon back into the world of statistics and economics.
